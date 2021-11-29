@@ -8,10 +8,6 @@ public class SinglyLinkedList<E extends Comparable<E>>{
     Node<E> head; //head is the top of the straight
     Node<E> tail;//tail is the exposed node
     int size = 0;
-    public SinglyLinkedList(){
-        this.head = null;
-        this.tail = null;
-    }
     public SinglyLinkedList(Node<E> head){
         if(head == null){
             System.out.println("null head");
@@ -92,12 +88,21 @@ public class SinglyLinkedList<E extends Comparable<E>>{
         prev.next = curr.next;
         return curr;
     }
+    public boolean contains(Node<E> nodeToFind){
+        return this.findNode(nodeToFind) != -1;
+    }
     public int findNode(Node<E> nodeToFind){
+        if(nodeToFind == null){
+            return -1;
+        }
         Node<E> curr = this.head;
-        while(!curr.equals(nodeToFind)){
+        while(!curr.equals(nodeToFind) && curr.next != null){
             curr = curr.next;
         }
-        return curr.getIndex();
+        if(curr.equals(nodeToFind)){
+            return curr.getIndex();
+        }
+        return -1;
     }
     public Node<E> getNode(int index){
         Node<E> curr = this.head;
