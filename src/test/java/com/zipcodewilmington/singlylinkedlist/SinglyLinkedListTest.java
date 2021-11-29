@@ -52,4 +52,15 @@ public class SinglyLinkedListTest {
         list.addNode(newbie);
         Assert.assertEquals(newbie,list.getNode(4));
     }
+    @Test
+    public void copyTest(){
+        before();
+        Assert.assertEquals(list,list.copy());
+    }
+    @Test
+    public void sortTest(){
+        before();
+        SinglyLinkedList<Integer> expected = new SinglyLinkedList<Integer>(new Node<Integer>(1,new Node<Integer>(2, new Node<Integer>(3,new Node<Integer>(4,null)))));
+        Assert.assertEquals(expected,list.selectionSort());
+    }
 }

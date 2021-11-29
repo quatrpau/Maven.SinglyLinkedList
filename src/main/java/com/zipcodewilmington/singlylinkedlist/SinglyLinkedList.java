@@ -8,6 +8,10 @@ public class SinglyLinkedList<E extends Comparable<E>>{
     Node<E> head; //head is the top of the straight
     Node<E> tail;//tail is the exposed node
     int size = 0;
+    public SinglyLinkedList(){
+        this.head = null;
+        this.tail = null;
+    }
     public SinglyLinkedList(Node<E> head){
         if(head == null){
             System.out.println("null head");
@@ -71,21 +75,30 @@ public class SinglyLinkedList<E extends Comparable<E>>{
         return size;
     }
     public Node<E> removeNode(Node<E> nodeToRemove){
-        Node<E> curr = this.head;
+        Node<E> curr = this.head; //might be problem statement in solitaire program
         Node<E> prev = curr;
         if(new SinglyLinkedList<E>(nodeToRemove).equals(this) && nodeToRemove.next == null){
+            System.out.println("full list removal");
             tail = null;
             head = null;
             size = 0;
             return curr;
         }
-        size = 0;
+        //size = 0;
         while(!curr.equals(nodeToRemove)){
-            size++;
+            //size++;
             prev = curr;
             curr = curr.next;
         }
-        prev.next = curr.next;
+        if(curr.equals(this.head)) {//try adding this in solitaire
+            //size++;
+            this.head = curr.next;
+        }
+        else{
+            prev.next = curr.next;
+        }
+        size--;
+        curr.next = null;
         return curr;
     }
     public boolean contains(Node<E> nodeToFind){
@@ -106,7 +119,7 @@ public class SinglyLinkedList<E extends Comparable<E>>{
     }
     public Node<E> getNode(int index){
         Node<E> curr = this.head;
-        while(curr.getIndex() != curr.getIndex()){
+        while(curr.getIndex() != index){
             curr = curr.next;
         }
         return curr;
@@ -116,7 +129,7 @@ public class SinglyLinkedList<E extends Comparable<E>>{
     }
     //compares via comparator
     public SinglyLinkedList<E> selectionSort() {
-        SinglyLinkedList<E> sorted = new SinglyLinkedList<E>(null);
+        SinglyLinkedList<E> sorted = new SinglyLinkedList<E>();
         SinglyLinkedList<E> arraycopy = this.copy();
         Node<E> curr = arraycopy.getHead();
         int sortCurs = 0;
@@ -125,14 +138,13 @@ public class SinglyLinkedList<E extends Comparable<E>>{
         }
         Node<E> smallest = arraycopy.getHead();
         while(sortCurs < this.size){
-            while(curr.next != null) {
-                if(curr.compareTo(smallest) >= 0){
+            while(curr != null) {
+                if(curr.compareTo(smallest) <= 0){
                     smallest = curr;
                 }
                 curr = curr.getNext();
             }
-            arraycopy.removeNode(smallest);
-            sorted.addNode(smallest);
+            sorted.addNode(arraycopy.removeNode(smallest));
             smallest = arraycopy.getHead();
             curr = arraycopy.getHead();
             sortCurs++;
